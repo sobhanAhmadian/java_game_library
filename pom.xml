@@ -6,10 +6,10 @@
 
     <groupId>io.github.sobhanAhmadian.GameLibrary</groupId>
     <artifactId>SimpleGameLibrary</artifactId>
-    <version>1.0</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
+    <name>io.github.sobhanAhmadian.GameLibrary:SimpleGameLibrary</name>
     <description>
         A simple game library for java language.This contain an engine and a simple UI for your game.
     </description>
