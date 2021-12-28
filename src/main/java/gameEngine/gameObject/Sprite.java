@@ -22,7 +22,7 @@ public abstract class Sprite extends GameObject {
     }
 
     @Override
-    public void pain(Graphics2D graphics2D) {
+    public void paint(Graphics2D graphics2D) {
         transform = new AffineTransform();
         transform.translate(getX() + getWidth() / 2.5, getY() + getWidth() / 2.5);
         transform.quadrantRotate(getAngle());

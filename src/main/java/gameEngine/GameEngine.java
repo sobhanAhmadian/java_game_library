@@ -269,7 +269,7 @@ public abstract class GameEngine extends Game {
         g.fillRect(0, 0, getWidth(), getHeight());
         for (GameObject gameObject :
                 gameObjects) {
-            gameObject.pain(graphics2D);
+            gameObject.paint(graphics2D);
         }
         Toolkit.getDefaultToolkit().sync();
     }
