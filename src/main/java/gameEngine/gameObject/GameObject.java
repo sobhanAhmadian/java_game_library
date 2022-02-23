@@ -10,7 +10,7 @@ public abstract class GameObject {
     private int height;
     private int angle;
 
-    public abstract void paint(Graphics2D graphics2D);
+    public abstract void paint(Graphics2D graphics2D, Camera camera);
 
     public abstract void update();
 

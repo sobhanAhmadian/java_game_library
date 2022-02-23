@@ -22,9 +22,11 @@ public abstract class Sprite extends GameObject {
     }
 
     @Override
-    public void paint(Graphics2D graphics2D) {
+    public void paint(Graphics2D graphics2D, Camera camera) {
+        int rx = getX() - camera.getX();
+        int ry = getY() - camera.getY();
         transform = new AffineTransform();
-        transform.translate(getX() + getWidth() / 2.5, getY() + getWidth() / 2.5);
+        transform.translate(rx + getWidth() / 2.5, ry + getWidth() / 2.5);
         transform.quadrantRotate(getAngle());
         transform.translate(-(float) (image.getWidth() / 2), -(float) (image.getHeight() / 2));
         graphics2D.drawImage(image, transform, null);

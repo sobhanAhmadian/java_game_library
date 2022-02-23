@@ -1,5 +1,6 @@
 package gameEngine;
 
+import gameEngine.gameObject.Camera;
 import gameEngine.gameObject.GameObject;
 import gameUI.dialogue.GameOverDialog;
 import gameUI.dialogue.GameWinDialog;
@@ -17,8 +18,7 @@ public abstract class GameEngine extends Game {
     private long delay = 3;
     private final List<GameObject> gameObjects;
     private GameListener gameListener;
-    private int width;
-    private int height;
+    private Camera camera;
     private final Color backgroundColor;
     private Clip clip_for_gameOver;
     private Clip clip_for_gameWin;
@@ -31,12 +31,11 @@ public abstract class GameEngine extends Game {
     private final String fontPath;
     private NextLevelCallback nextLevelCallback;
 
-    public GameEngine(int width, int height, Color backgroundColor,
+    public GameEngine(Camera camera, Color backgroundColor,
                       String gameOverAudioPath, String gameWinAudioPath, String gameAudioPath,
                       String gameWinIconPath, String gameOverIconPath, String fontPath) {
 
-        this.width = width;
-        this.height = height;
+        this.camera = camera;
         this.backgroundColor = backgroundColor;
         this.gameOverAudioPath = gameOverAudioPath;
         this.gameWinAudioPath = gameWinAudioPath;
@@ -46,7 +45,7 @@ public abstract class GameEngine extends Game {
         this.fontPath = fontPath;
 
         setVisible(true);
-        setSize(width, height);
+        setSize(camera.getWidth(), camera.getHeight());
         addKeyListener(new KeyHandler());
         addMouseListener(new MouseHandler());
         addComponentListener(new ComponentHandler());
@@ -269,7 +268,7 @@ public abstract class GameEngine extends Game {
         g.fillRect(0, 0, getWidth(), getHeight());
         for (GameObject gameObject :
                 gameObjects) {
-            gameObject.paint(graphics2D);
+            gameObject.paint(graphics2D, camera);
         }
         Toolkit.getDefaultToolkit().sync();
     }
@@ -282,20 +281,12 @@ public abstract class GameEngine extends Game {
 
     @Override
     public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
+        return camera.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+        return camera.getHeight();
     }
 
     public void setDelay(long delay) {
