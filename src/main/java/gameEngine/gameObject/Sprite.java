@@ -5,32 +5,62 @@ import gameEngine.Util;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public abstract class Sprite extends GameObject {
 
     private BufferedImage image;
-    private AffineTransform transform;
+    private List<Animation> animations;
+    private int currentAnimationIndex;
+    private boolean flip = false;
 
     public Sprite(String imagePath) {
+        animations = new ArrayList<>();
         try {
-            image = ImageIO.read(getClass().getResource(imagePath));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResource(imagePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
+    public void update() {
+        if (animations.size() > 0) {
+            image = animations.get(currentAnimationIndex).getCurrentFrame();
+            animations.get(currentAnimationIndex).moveFrame();
+        }
+        updatePosition();
+    }
+
+    @Override
     public void paint(Graphics2D graphics2D, Camera camera) {
         int rx = getX() - camera.getX();
         int ry = getY() - camera.getY();
-        transform = new AffineTransform();
+        AffineTransform transform = new AffineTransform();
         transform.translate(rx + getWidth() / 2.5, ry + getWidth() / 2.5);
         transform.quadrantRotate(getAngle());
         transform.translate(-(float) (image.getWidth() / 2), -(float) (image.getHeight() / 2));
+
+        if (flip) {
+            AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+            tx.translate(-image.getWidth(null), 0);
+            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+            image = op.filter(image, null);
+        }
+
         graphics2D.drawImage(image, transform, null);
     }
+
+    public void addAnimation(Animation animation) {
+        animations.add(animation);
+    }
+
+    public abstract void updatePosition();
 
     @Override
     public void setWidth(int width) {
@@ -42,6 +72,14 @@ public abstract class Sprite extends GameObject {
     public void setHeight(int height) {
         super.setHeight(height);
         resizeImage();
+    }
+
+    public void setFlip(boolean flip) {
+        this.flip = flip;
+    }
+
+    public boolean getFlip() {
+        return this.flip;
     }
 
     private void resizeImage() {

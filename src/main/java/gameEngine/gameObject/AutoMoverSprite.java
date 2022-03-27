@@ -10,7 +10,7 @@ public class AutoMoverSprite extends Sprite{
     }
 
     @Override
-    public void update() {
+    public void updatePosition() {
         setX(getX() + xStep);
         setY(getY() + yStep);
     }
