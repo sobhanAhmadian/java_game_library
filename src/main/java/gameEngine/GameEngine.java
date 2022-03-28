@@ -2,6 +2,7 @@ package gameEngine;
 
 import gameEngine.gameObject.Camera;
 import gameEngine.gameObject.GameObject;
+import gameEngine.gameObject.TileMap;
 import gameUI.dialogue.GameOverDialog;
 import gameUI.dialogue.GameWinDialog;
 
@@ -18,7 +19,8 @@ public abstract class GameEngine extends Game {
     private long delay = 3;
     private final List<GameObject> gameObjects;
     private GameListener gameListener;
-    private Camera camera;
+    private final Camera camera;
+    private TileMap tileMap;
     private final Color backgroundColor;
     private Clip clip_for_gameOver;
     private Clip clip_for_gameWin;
@@ -266,6 +268,7 @@ public abstract class GameEngine extends Game {
         Graphics2D graphics2D = (Graphics2D) g;
         g.setColor(backgroundColor);
         g.fillRect(0, 0, getWidth(), getHeight());
+        tileMap.paint(graphics2D, camera);
         for (GameObject gameObject :
                 gameObjects) {
             gameObject.paint(graphics2D, camera);
@@ -295,5 +298,9 @@ public abstract class GameEngine extends Game {
 
     public void setNextLevelCallback(NextLevelCallback nextLevelCallback) {
         this.nextLevelCallback = nextLevelCallback;
+    }
+
+    public void setTileMap(TileMap tileMap) {
+        this.tileMap = tileMap;
     }
 }

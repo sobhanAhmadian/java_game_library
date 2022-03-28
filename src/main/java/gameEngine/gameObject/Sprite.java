@@ -42,9 +42,9 @@ public abstract class Sprite extends GameObject {
         int rx = getX() - camera.getX();
         int ry = getY() - camera.getY();
         AffineTransform transform = new AffineTransform();
-        transform.translate(rx + getWidth() / 2.5, ry + getWidth() / 2.5);
+        transform.translate(rx, ry);
         transform.quadrantRotate(getAngle());
-        transform.translate(-(float) (image.getWidth() / 2), -(float) (image.getHeight() / 2));
+        transform.translate(-(float) (getWidth() / 2), -(float) (getHeight() / 2));
 
         if (flip) {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
@@ -53,7 +53,9 @@ public abstract class Sprite extends GameObject {
             image = op.filter(image, null);
         }
 
-        graphics2D.drawImage(image, transform, null);
+        Image newImage = image.getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT);
+
+        graphics2D.drawImage(newImage, transform, null);
     }
 
     public void addAnimation(Animation animation) {
