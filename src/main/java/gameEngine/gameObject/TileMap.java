@@ -20,7 +20,7 @@ public class TileMap extends GameObject {
     private int m;
     private final int tileWidth;
     private final int tileHeight;
-    private Color emptySpaceColor;
+    private final Color emptySpaceColor;
 
     public TileMap(String tileFilePath, String[] tiles, int tileWidth, int tileHeight, Color emptySpaceColor) {
         this.tileWidth = tileWidth;
@@ -70,8 +70,8 @@ public class TileMap extends GameObject {
                 AffineTransform transform = new AffineTransform();
                 transform.translate(rx, ry);
 
-                if (map[i][j] == -1) g.fillRect(rx, ry, tileWidth, tileHeight);
-                else {
+                g.fillRect(rx, ry, tileWidth, tileHeight);
+                if (map[i][j] != -1) {
                     BufferedImage tile = tiles[map[i][j]];
                     Image newImage = tile.getScaledInstance(tileWidth, tileHeight, Image.SCALE_DEFAULT);
                     g.drawImage(newImage, transform, null);
@@ -90,5 +90,13 @@ public class TileMap extends GameObject {
     @Override
     public void update() {
 
+    }
+
+    public int getTileKindInPosition(int x, int y) {
+        int j = x / tileWidth;
+        int i = y / tileHeight;
+
+        if (i >= n || j >= m || i < 0 || j < 0) return -1;
+        return map[i][j];
     }
 }

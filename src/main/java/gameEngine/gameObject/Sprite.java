@@ -15,7 +15,7 @@ import java.util.Objects;
 public abstract class Sprite extends GameObject {
 
     private BufferedImage image;
-    private List<Animation> animations;
+    private final List<Animation> animations;
     private int currentAnimationIndex;
     private boolean flip = false;
 
@@ -86,5 +86,9 @@ public abstract class Sprite extends GameObject {
 
     private void resizeImage() {
         image = Util.resize(image, getWidth(), getHeight());
+    }
+
+    public void setCurrentAnimationIndex(int currentAnimationIndex) {
+        this.currentAnimationIndex = currentAnimationIndex;
     }
 }

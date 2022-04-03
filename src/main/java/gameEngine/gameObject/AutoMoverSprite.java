@@ -2,8 +2,10 @@ package gameEngine.gameObject;
 
 public class AutoMoverSprite extends Sprite{
 
-    private int xStep;
-    private int yStep;
+    private double xStep;
+    private double yStep;
+    private double xTemp;
+    private double yTemp;
 
     public AutoMoverSprite(String imagePath) {
         super(imagePath);
@@ -11,23 +13,33 @@ public class AutoMoverSprite extends Sprite{
 
     @Override
     public void updatePosition() {
-        setX(getX() + xStep);
-        setY(getY() + yStep);
+
+        xTemp += xStep;
+        yTemp += yStep;
+
+        if (Math.abs(xTemp) >= 1) {
+            setX(getX() + (int) xTemp);
+            xTemp = 0;
+        }
+        if (Math.abs(yTemp) >= 1) {
+            setY(getY() + (int) yTemp);
+            yTemp = 0;
+        }
     }
 
-    public int getxStep() {
+    public double getXStep() {
         return xStep;
     }
 
-    public void setxStep(int xStep) {
+    public void setXStep(double xStep) {
         this.xStep = xStep;
     }
 
-    public int getyStep() {
+    public double getYStep() {
         return yStep;
     }
 
-    public void setyStep(int yStep) {
+    public void setYStep(double yStep) {
         this.yStep = yStep;
     }
 }
